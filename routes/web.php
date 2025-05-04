@@ -18,4 +18,7 @@ Route::get('/', function () {
 });
 Route::get('/masuk', function () {
     return view('masuk');
-});
+})->name('login');
+Route::get('/daftar', function () {
+    return view('daftar');
+})->name('daftar');

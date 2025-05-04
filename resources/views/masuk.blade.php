@@ -34,11 +34,12 @@
             </form>
             
             <div class="register-prompt">
-                <p>Tidak punya akun? <a href="#">Daftar sekarang!</a></p>
+                <p>Tidak punya akun? <a href="{{ route('daftar') }}">Daftar sekarang!</a></p>
             </div>
             
         </div>
     </div>
     <script src="{{ asset('js/login.js') }}"></script>
+
 </body>
 </html>

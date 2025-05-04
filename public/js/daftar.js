@@ -13,4 +13,3 @@ document.addEventListener('DOMContentLoaded', function () {
         this.querySelector('i').classList.toggle('fa-eye-slash');
     });
 });
-

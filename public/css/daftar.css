@@ -18,7 +18,7 @@ body {
     overflow: hidden;
 }
 
-.left-section {
+.right-section {
     flex: 1;
     background-color: #f7f9fa;
     display: flex;
@@ -26,12 +26,12 @@ body {
     align-items: center;
 }
 
-.left-section img {
+.right-section img {
     width: 100%;
     max-width: 400px;
 }
 
-.right-section {
+.left-section {
     flex: 1;
     padding: 50px 40px;
 }
@@ -122,4 +122,3 @@ button {
 .register-prompt a:hover {
     text-decoration: underline;
 }
-
