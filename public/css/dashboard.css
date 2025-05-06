@@ -1,0 +1,9 @@
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* Animasi Hover untuk Kartu */
+.card-dashboard {
+    transition: all 0.3s ease;
+}
+.card-dashboard:hover {
+    transform: scale(1.02);
+}

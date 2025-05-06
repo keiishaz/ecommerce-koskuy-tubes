@@ -22,3 +22,6 @@ Route::get('/masuk', function () {
 Route::get('/daftar', function () {
     return view('daftar');
 })->name('daftar');
+Route::get('/dashboard', function () {
+    return view('dashboardadmin');
+})->name('dashboard');
