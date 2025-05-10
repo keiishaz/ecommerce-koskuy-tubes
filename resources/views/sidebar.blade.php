@@ -11,16 +11,16 @@
   <!-- Menu -->
   <nav class="space-y-4 text-sm">
     <a href="/admin/barang" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
-      <span class="iconify" data-icon="mdi:package"></span> CRUD Barang
+      <span class="iconify" data-icon="mdi:package"></span> Daftar Barang
     </a>
     <a href="/admin/kategori" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
-      <span class="iconify" data-icon="mdi:folder"></span> CRUD Kategori
+      <span class="iconify" data-icon="mdi:folder"></span> Daftar Kategori
     </a>
     <a href="/admin/pesanan" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
-      <span class="iconify" data-icon="mdi:cart"></span> CRUD Pesanan
+      <span class="iconify" data-icon="mdi:cart"></span> Daftar Pesanan
     </a>
     <a href="/admin/pengguna" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
-      <span class="iconify" data-icon="mdi:account-circle"></span> CRUD Pengguna
+      <span class="iconify" data-icon="mdi:account-circle"></span> Daftar Pengguna
     </a>
     <!-- Menu Logout -->
     <a href="/logout" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500 mt-6">

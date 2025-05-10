@@ -25,3 +25,6 @@ Route::get('/daftar', function () {
 Route::get('/dashboard', function () {
     return view('dashboardadmin');
 })->name('dashboard');
+Route::get('/admin/barang', function () {
+    return view('crudbarang');
+})->name('crudbarang');
