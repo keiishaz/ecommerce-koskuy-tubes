@@ -28,3 +28,12 @@ Route::get('/dashboard', function () {
 Route::get('/admin/barang', function () {
     return view('crudbarang');
 })->name('crudbarang');
+Route::get('/admin/kategori', function () {
+    return view('crudkategori');
+})->name('crudkategori');
+Route::get('/admin/pesanan', function () {
+    return view('crudpesanan');
+})->name('crudpesanan');
+Route::get('/admin/pengguna', function () {
+    return view('crudpengguna');
+})->name('crudpengguna');
