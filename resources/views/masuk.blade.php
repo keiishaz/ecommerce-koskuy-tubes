@@ -16,11 +16,20 @@
             <div class="right-inner">
             <h2>Masuk</h2>
             <p>Yuk masuk ke akun kamu dan temukan barang-barang preloved anak kos yang hemat dan bermanfaat!</p>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $item)
+                            <li>{{$item}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="" method="POST" class="login-form">
                 @csrf
             
                 <div class="input-group">
-                    <input type="text" name="username" id="username" required autocomplete="off" placeholder="Email">
+                    <input type="email" value="{{ old('email') }}" name="email" id="email" required autocomplete="off" placeholder="Email">
                     <span class="icon left"><i class="fa fa-user"></i></span>
                 </div>
                 
