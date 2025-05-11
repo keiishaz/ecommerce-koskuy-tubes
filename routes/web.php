@@ -29,9 +29,7 @@ Route::get('/daftar', function () {
 Route::get('/dashboard', function () {
     return view('dashboardadmin');
 })->name('dashboard');
-Route::get('/admin/barang', function () {
-    return view('crudbarang');
-})->name('crudbarang');
+
 Route::get('/admin/kategori', function () {
     return view('crudkategori');
 })->name('crudkategori');
@@ -56,6 +54,12 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin'); // Dashboard admin
     Route::get('/user', [UserController::class, 'index'])->name('user'); // Halaman beranda user
     Route::get('/logout', [SessionController::class, 'logout'])->name('logout'); // Logout route
+    Route::get('/admin/barang', [AdminController::class, 'produk'])->name('crudbarang');
+    Route::get('/admin/barang/tambah', [AdminController::class, 'tambahProduk'])->name('tambahproduk'); // Halaman tambah produk
+    Route::post('/admin/barang/tambah', [AdminController::class, 'simpanProduk']); // Proses simpan produk
+    Route::get('/admin/barang/{id}/edit', [AdminController::class, 'editProduk'])->name('editProduk');
+    Route::put('/admin/barang/{id}', [AdminController::class, 'updateProduk'])->name('updateProduk');
+    Route::delete('/admin/barang/{id}', [AdminController::class, 'hapusProduk'])->name('hapusProduk');
 });
 
 

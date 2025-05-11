@@ -10,6 +10,9 @@
 
   <!-- Menu -->
   <nav class="space-y-4 text-sm">
+    <a href="/admin" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
+      <span class="iconify" data-icon="mdi:home"></span> Dashboard
+    </a>
     <a href="/admin/barang" class="flex items-center gap-3 text-white hover:text-gray-200 px-4 py-2 rounded-md transition-all hover:bg-purple-500">
       <span class="iconify" data-icon="mdi:package"></span> Daftar Barang
     </a>

@@ -15,7 +15,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="flex min-h-screen">
-    @include('sidebar')
+    @include('admin.sidebar')
 
 <div class="flex-1 p-6 bg-gray-50 transition-all duration-300 w-full">
   <!-- Akun Profil di Atas Dashboard -->
