@@ -23,7 +23,7 @@
       <!-- Header Kategori -->
       <div class="bg-white p-5 rounded-lg shadow-md mb-6 flex justify-between items-center">
         <h1 class="text-2xl font-semibold text-gray-700">Daftar Kategori</h1>
-        <button class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Tambah Kategori</button>
+        <a href="{{ route('tambahKategori') }}" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Tambah Kategori</a>
       </div>
 
       <!-- Pencarian Kategori -->
@@ -42,31 +42,26 @@
 
       <!-- List Kategori -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="kategori-list">
-        <!-- Contoh Kategori -->
-        <div class="bg-white shadow-md rounded-lg p-5 flex flex-col justify-between card-kategori">
-          <div class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-700 kategori-nama">Elektronik</h3>
-            <p class="text-sm text-gray-500 mt-2"><strong>Jumlah Barang:</strong> 12</p>
+        <!-- Looping untuk menampilkan kategori dari database -->
+        @foreach ($categories as $category)
+          <div class="bg-white shadow-md rounded-lg p-5 flex flex-col justify-between card-kategori">
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-gray-700 kategori-nama">{{ $category->nama }}</h3>
+              <p class="text-sm text-gray-500 mt-2"><strong>Jumlah Barang:</strong> {{ $category->products->count() }}</p>
+            </div>
+            <div class="flex justify-between mt-4">
+              <!-- Edit Kategori -->
+              <a href="{{ route('editKategori', $category->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</a>
+              
+              <!-- Hapus Kategori -->
+              <form action="{{ route('hapusKategori', $category->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
+              </form>
+            </div>
           </div>
-          <div class="flex justify-between mt-4">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
-            <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-          </div>
-        </div>
-
-        <!-- Contoh Kategori Lain -->
-        <div class="bg-white shadow-md rounded-lg p-5 flex flex-col justify-between card-kategori">
-          <div class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-700 kategori-nama">Pakaian</h3>
-            <p class="text-sm text-gray-500 mt-2"><strong>Jumlah Barang:</strong> 8</p>
-          </div>
-          <div class="flex justify-between mt-4">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Edit</button>
-            <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-          </div>
-        </div>
-
-        <!-- Tambahkan kategori lain di sini... -->
+        @endforeach
       </div>
     </div>
   </div>

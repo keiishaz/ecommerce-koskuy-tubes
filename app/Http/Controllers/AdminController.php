@@ -128,5 +128,66 @@ class AdminController extends Controller
     return redirect()->route('crudbarang')->with('success', 'Produk berhasil dihapus!');
     }
 
+    // Menampilkan daftar kategori
+    public function kategori(Request $request)
+    {
+        $categories = Category::all(); // Ambil semua kategori dari database
+        return view('admin.crudkategori', compact('categories'));
+    }
+
+    // Menampilkan form tambah kategori
+    public function tambahKategori()
+    {
+        return view('admin.tambahkategori'); // Halaman form tambah kategori
+    }
+
+    // Menyimpan kategori baru
+    public function simpanKategori(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+
+        // Simpan kategori ke database
+        Category::create([
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()->route('kategori')->with('success', 'Kategori berhasil ditambahkan!');
+    }
+
+    // Menampilkan form edit kategori
+    public function editKategori($id)
+    {
+        $category = Category::findOrFail($id); // Ambil kategori berdasarkan ID
+        return view('admin.editkategori', compact('category'));
+    }
+
+    // Update kategori
+    public function updateKategori(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+
+        // Cari kategori dan update
+        $category = Category::findOrFail($id);
+        $category->update([
+            'nama' => $request->nama,
+        ]);
+
+        return redirect()->route('kategori')->with('success', 'Kategori berhasil diperbarui!');
+    }
+
+    // Hapus kategori
+    public function hapusKategori($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('kategori')->with('success', 'Kategori berhasil dihapus!');
+    }
 
 }

@@ -26,18 +26,11 @@ Route::get('/daftar', function () {
     return view('daftar');
 })->name('daftar');
 
-Route::get('/dashboard', function () {
-    return view('dashboardadmin');
-})->name('dashboard');
-
-Route::get('/admin/kategori', function () {
-    return view('crudkategori');
-})->name('crudkategori');
 Route::get('/admin/pesanan', function () {
-    return view('crudpesanan');
+    return view('admin.crudpesanan');
 })->name('crudpesanan');
 Route::get('/admin/pengguna', function () {
-    return view('crudpengguna');
+    return view('admin.crudpengguna');
 })->name('crudpengguna');
 
 Route::middleware(['guest'])->group(function() {
@@ -54,12 +47,20 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin'); // Dashboard admin
     Route::get('/user', [UserController::class, 'index'])->name('user'); // Halaman beranda user
     Route::get('/logout', [SessionController::class, 'logout'])->name('logout'); // Logout route
+
     Route::get('/admin/barang', [AdminController::class, 'produk'])->name('crudbarang');
     Route::get('/admin/barang/tambah', [AdminController::class, 'tambahProduk'])->name('tambahproduk'); // Halaman tambah produk
     Route::post('/admin/barang/tambah', [AdminController::class, 'simpanProduk']); // Proses simpan produk
     Route::get('/admin/barang/{id}/edit', [AdminController::class, 'editProduk'])->name('editProduk');
     Route::put('/admin/barang/{id}', [AdminController::class, 'updateProduk'])->name('updateProduk');
     Route::delete('/admin/barang/{id}', [AdminController::class, 'hapusProduk'])->name('hapusProduk');
+
+    Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('kategori'); // Menampilkan daftar kategori
+    Route::get('/admin/kategori/tambah', [AdminController::class, 'tambahKategori'])->name('tambahKategori'); // Form tambah kategori
+    Route::post('/admin/kategori', [AdminController::class, 'simpanKategori'])->name('simpanKategori'); // Menyimpan kategori
+    Route::get('/admin/kategori/{id}/edit', [AdminController::class, 'editKategori'])->name('editKategori'); // Form edit kategori
+    Route::put('/admin/kategori/{id}', [AdminController::class, 'updateKategori'])->name('updateKategori'); // Update kategori
+    Route::delete('/admin/kategori/{id}', [AdminController::class, 'hapusKategori'])->name('hapusKategori'); // Hapus kategori
 });
 
 

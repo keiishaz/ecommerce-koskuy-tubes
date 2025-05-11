@@ -14,7 +14,6 @@
   <script src="{{ asset('js/script.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
-  <script src="{{ asset('js/crud-barang.js') }}"></script>
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -97,6 +96,18 @@
         <!-- Card Barang lainnya... -->
       </div>
     </div>
+
+  <script>
+    // Pencarian Barang
+    $('#search-barang').on('keyup', function () {
+      let keyword = $(this).val().toLowerCase();  // Mengambil nilai pencarian dan menjadikannya lowercase
+      $('.card-barang').each(function () {
+        let itemName = $(this).find('.item-name').text().toLowerCase();  // Ambil nama produk dan ubah menjadi lowercase
+        // Menyembunyikan atau menampilkan produk berdasarkan pencarian
+        $(this).toggle(itemName.includes(keyword)); // Menampilkan produk yang sesuai dengan pencarian
+      });
+    });
+  </script>
 
 </body>
 
