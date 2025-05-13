@@ -32,6 +32,10 @@ Route::get('/admin/pesanan', function () {
 Route::get('/admin/pengguna', function () {
     return view('admin.crudpengguna');
 })->name('crudpengguna');
+Route::get('/admin/pengguna', function () {
+    return view('admin.crudpengguna');
+})->name('crudpengguna');
+
 
 Route::middleware(['guest'])->group(function() {
     Route::get('/masuk', [SessionController::class, 'index'])->name('login');
@@ -61,6 +65,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/admin/kategori/{id}/edit', [AdminController::class, 'editKategori'])->name('editKategori'); // Form edit kategori
     Route::put('/admin/kategori/{id}', [AdminController::class, 'updateKategori'])->name('updateKategori'); // Update kategori
     Route::delete('/admin/kategori/{id}', [AdminController::class, 'hapusKategori'])->name('hapusKategori'); // Hapus kategori
+    
+    
+    Route::get('/admin/pengguna', [AdminController::class, 'pengguna'])->name('crudpengguna');
+    Route::get('/admin/pengguna/tambah', [AdminController::class, 'tambahPengguna'])->name('tambahpengguna');    
+    Route::get('/admin/pengguna/{id}/edit', [AdminController::class, 'editPengguna'])->name('editPengguna'); // Form edit kategori
 });
 
 
