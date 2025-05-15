@@ -43,7 +43,7 @@
             </form>
             
             <div class="register-prompt">
-                <p>Tidak punya akun? <a href="{{ route('daftar') }}">Daftar sekarang!</a></p>
+                <p>Tidak punya akun? <a href="{{ route('register') }}">Daftar sekarang!</a></p>
             </div>
             
         </div>

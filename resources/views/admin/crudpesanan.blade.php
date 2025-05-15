@@ -38,44 +38,73 @@
         </div>
       </div>
 
-      <!-- List Pesanan -->
+      <!-- Grouped Pesanan List -->
       <div class="grid grid-cols-1 gap-6" id="pesanan-list">
-        <!-- Contoh Pesanan -->
-        <div class="bg-white shadow-md rounded-lg p-5 flex flex-col gap-4 card-pesanan">
-          <div class="flex flex-wrap justify-between items-start">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-700 pesanan-barang">Nama Barang: Headset Gaming</h3>
-              <p class="text-sm text-gray-500 mt-1">Nama Pembeli: <strong>Ali Rahman</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Jumlah: <strong>2</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Harga Satuan: <strong>Rp 250.000</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Total Harga: <strong>Rp 500.000</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Status: <span class="text-yellow-500 font-medium">Menunggu Konfirmasi</span></p>
-            </div>
-            <div class="flex flex-col gap-2 mt-4 md:mt-0">
-              <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Konfirmasi</button>
-              <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-            </div>
-          </div>
-        </div>
+        @foreach ($groupedOrders as $date => $orders)
+          <div class="bg-white shadow-md rounded-lg p-5">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Pesanan Tanggal: {{ $date }}</h3>
+            @foreach ($orders as $order)
+              <div class="bg-white shadow-md rounded-lg p-5 mb-4">
+                <div class="flex flex-col gap-4">
+                  <!-- Info Nama dan Status -->
+                  <div class="flex justify-between items-center">
+                    <h4 class="text-md font-semibold text-gray-700">Nama Pembeli: <strong>{{ $order->user->name }}</strong></h4>
+                    <span class="bg-opacity-20 text-sm font-semibold px-3 py-1 rounded-full
+                      @if($order->status == 'Menunggu Pembayaran') bg-yellow-400 text-yellow-800 
+                      @elseif($order->status == 'Diproses') bg-green-400 text-green-800 
+                      @else bg-red-400 text-red-800 @endif">
+                      {{ $order->status }}
+                    </span>
+                  </div>
 
-        <!-- Pesanan lainnya -->
-        <div class="bg-white shadow-md rounded-lg p-5 flex flex-col gap-4 card-pesanan">
-          <div class="flex flex-wrap justify-between items-start">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-700 pesanan-barang">Nama Barang: Jaket Kulit</h3>
-              <p class="text-sm text-gray-500 mt-1">Nama Pembeli: <strong>Sinta Dewi</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Jumlah: <strong>1</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Harga Satuan: <strong>Rp 400.000</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Total Harga: <strong>Rp 400.000</strong></p>
-              <p class="text-sm text-gray-500 mt-1">Status: <span class="text-green-500 font-medium">Dikonfirmasi</span></p>
-            </div>
-            <div class="flex flex-col gap-2 mt-4 md:mt-0">
-              <button class="bg-gray-400 text-white px-4 py-2 rounded-md cursor-not-allowed" disabled>Selesai</button>
-              <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Hapus</button>
-            </div>
+                  <!-- Ringkasan Pesanan -->
+                  <div>
+                    <h5 class="text-sm font-semibold text-gray-700">Ringkasan Pesanan:</h5>
+                    <ul class="list-disc ml-5 text-sm text-gray-600">
+                      @foreach ($order->items as $item)
+                        <li>{{ $item->product->nama }} - {{ $item->jumlah }} x Rp {{ number_format($item->harga) }}</li>
+                      @endforeach
+                    </ul>
+                  </div>
+
+                  <!-- Total Harga (mencolok) -->
+                  <div>
+                    <p class="text-lg font-bold text-gray-700">Total Harga: Rp {{ number_format($order->total_harga) }}</p>
+                  </div>
+
+                  <!-- Status Change Buttons -->
+                  <div class="flex justify-end gap-4 mt-4">
+                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Menunggu Pembayaran']) }}" method="POST" class="w-full">
+                      @csrf
+                      @method('PUT')
+                      <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 w-full">
+                        Menunggu Pembayaran
+                      </button>
+                    </form>
+
+                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Diproses']) }}" method="POST" class="w-full">
+                      @csrf
+                      @method('PUT')
+                      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
+                        Diproses
+                      </button>
+                    </form>
+
+                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Selesai']) }}" method="POST" class="w-full">
+                      @csrf
+                      @method('PUT')
+                      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full">
+                        Selesai
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            @endforeach
           </div>
-        </div>
+        @endforeach
       </div>
+
     </div>
   </div>
 
@@ -83,12 +112,13 @@
     // Pencarian Pesanan
     $('#search-pesanan').on('keyup', function () {
       let keyword = $(this).val().toLowerCase();
-      $('.card-pesanan').each(function () {
+      $('#pesanan-list .bg-white').each(function () {
         let text = $(this).text().toLowerCase();
         $(this).toggle(text.includes(keyword));
       });
     });
   </script>
+
 </body>
 
 </html>

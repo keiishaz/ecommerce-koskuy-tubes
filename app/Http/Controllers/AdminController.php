@@ -2,16 +2,138 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    public function index() {
-        return view('admin.dashboardadmin');
+public function index()
+{
+    $user = Auth::user();
+
+    // Data untuk dashboard
+    $incomingOrders = Order::where('status', 'Menunggu Pembayaran')->count();
+    $completedOrders = Order::where('status', 'Selesai')->count();
+    $totalIncome = Order::where('status', 'Selesai')->sum('total_harga');
+
+    $productCount = Product::count();
+    $categoryCount = Category::count();
+    $userCount = User::count();
+
+    return view('admin.dashboardadmin', compact(
+        'incomingOrders',
+        'completedOrders',
+        'totalIncome',
+        'productCount',
+        'categoryCount',
+        'userCount'
+    ));
+}
+
+    public function orders()
+    {
+    $orders = Order::with('items.product', 'user')
+                ->get();
+
+    // Group orders by date, considering created_at
+    $groupedOrders = $orders->groupBy(function($order) {
+        return $order->created_at->format('Y-m-d'); // Group by date only, not time
+    });
+
+    return view('admin.crudpesanan', compact('groupedOrders'));
     }
+
+    // Confirm the order
+public function confirmOrder(Order $order)
+{
+    $order->status = 'Dikonfirmasi';  // Change status to "Confirmed"
+    $order->save();
+
+    return redirect()->route('admin.orders')->with('success', 'Pesanan berhasil dikonfirmasi.');
+}
+
+// Delete the order
+public function deleteOrder(Order $order)
+{
+    // Delete the order items
+    foreach ($order->items as $item) {
+        $item->delete();
+    }
+
+    // Delete the order
+    $order->delete();
+
+    return redirect()->route('admin.orders')->with('success', 'Pesanan berhasil dihapus.');
+}
+
+public function updateOrderStatus($orderId, $status)
+{
+    $order = Order::findOrFail($orderId);
+
+    // Check if the status is one of the allowed statuses
+    $validStatuses = ['Menunggu Pembayaran', 'Diproses', 'Selesai'];
+    
+    if (!in_array($status, $validStatuses)) {
+        return redirect()->route('crudpesanan')->with('error', 'Status yang dipilih tidak valid.');
+    }
+
+    // Update the order status
+    $order->status = $status;
+    $order->save();
+
+    return redirect()->route('crudpesanan')->with('success', 'Status pesanan berhasil diperbarui.');
+}
+
+public function editProfile() {
+    return view('admin.akunadmin');
+}
+
+public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+
+    // Validasi input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+        'password' => 'nullable', // Validasi password jika ada
+    ]);
+
+    // Update Nama dan Username
+    $user->name = $request->name;
+    $user->username = $request->username;
+
+    // Jika ada gambar baru, upload gambar dan update path di database
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama jika ada
+        $oldPath = public_path('images/uploadedfile/' . $user->image);
+        if ($user->image && file_exists($oldPath)) {
+            unlink($oldPath);
+        }
+
+        // Simpan gambar baru
+        $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('images/uploadedfile'), $imageName);
+        $user->image = $imageName;
+    }
+
+    // Update Password jika ada
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('admin.akun')->with('success', 'Akun berhasil diperbarui.');
+}
 
     public function produk(Request $request)
     {

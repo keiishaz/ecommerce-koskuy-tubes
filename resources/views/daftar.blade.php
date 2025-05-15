@@ -14,11 +14,26 @@
             <div class="right-inner">
                 <h2>Daftar</h2>
                 <p>Masukkan data diri kamu untuk mendaftar dan mulai belanja barang preloved hemat di sini!</p>
-                <form action="{{ route('daftar') }}" method="POST" class="login-form">
+                @if($errors->any())
+                    <div class="error-message">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li style="color: red">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('register') }}" method="POST" class="login-form">
                     @csrf
 
                     <div class="input-group">
-                        <input type="text" name="username" id="username" required autocomplete="off" placeholder="Nama Lengkap">
+                        <input type="text" name="nama" id="nama" required autocomplete="off" placeholder="Nama Lengkap">
+                        <span class="icon left"><i class="fa fa-id-card"></i></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" name="username" id="username" required autocomplete="off" placeholder="Username">
                         <span class="icon left"><i class="fa fa-user"></i></span>
                     </div>
 
