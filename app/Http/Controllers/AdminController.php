@@ -312,4 +312,41 @@ public function updateProfile(Request $request)
         return redirect()->route('kategori')->with('success', 'Kategori berhasil dihapus!');
     }
 
+    public function pengguna(Request $request)
+{
+    $search = $request->input('search');
+    $role = $request->input('role');
+
+    $query = User::query();
+
+    if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('username', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+        });
+    }
+
+    if ($role && in_array($role, ['admin', 'pembeli'])) {
+        $query->where('role', $role);
+    }
+
+    $users = $query->get();
+    $roles = User::select('role')->distinct()->pluck('role');
+
+    return view('admin.crudpengguna', compact('users', 'search', 'role', 'roles'));
+}
+
+public function tambahPengguna()
+{
+    return view('admin.tambahpengguna');
+}
+
+// Menampilkan form edit pengguna
+public function editPengguna($id)
+{
+    $user = User::findOrFail($id);
+    return view('admin.editpengguna', compact('user'));
+}
+
 }
