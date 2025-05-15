@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Hash;
 class SessionController extends Controller
 {
     public function index() {
-        return view('masuk');
+        return view('guest.masuk');
     }
     public function daftar() {
-        return view('daftar');
+        return view('guest.daftar');
     }
     public function login(Request $request) {
         $request->validate([
@@ -54,7 +54,7 @@ class SessionController extends Controller
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'role' => 'pembeli',
-        'image' => 'default.png', // atau bisa dikosongkan
+        'image' => 'default.png',
     ]);
 
     return redirect()->route('login')->with('success', 'Pendaftaran berhasil!');

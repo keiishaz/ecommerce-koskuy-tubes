@@ -115,7 +115,7 @@
           @if(Auth::user()->image)
             <img src="{{ asset('images/uploadedfile/' . Auth::user()->image) }}" alt="User Image" class="profile-img" />
           @else
-            <img src="{{ asset('images/default-avatar.png') }}" alt="User Image" class="profile-img" />
+            <img src="{{ asset('images/uploadedfile/default.png') }}" alt="User Image" class="profile-img" />
           @endif
           <span>{{ Auth::user()->name }}</span>
         </a>

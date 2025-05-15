@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="" method="POST" class="login-form">
+            <form action="{{ route('prosesmasuk') }}" method="POST" class="login-form">
                 @csrf
             
                 <div class="input-group">

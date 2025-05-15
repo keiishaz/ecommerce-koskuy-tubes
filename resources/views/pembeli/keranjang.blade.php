@@ -7,6 +7,8 @@
     <!-- Cart Items List -->
     <div class="bg-white shadow-sm rounded-lg p-6">
       <div class="overflow-x-auto">
+        
+        <!-- Form Checkout -->
         <form action="{{ route('checkout') }}" method="GET">
           <table class="min-w-full table-auto">
             <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
@@ -38,11 +40,10 @@
                   <input type="checkbox" name="product_id[]" value="{{ $cart->product->id }}" class="text-purple-600 focus:ring-purple-400" />
                 </td>
                 <td class="py-3 px-4">
-                  <form action="{{ route('cart.remove', $cart->id) }}" method="POST" onsubmit="return confirm('Hapus item ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-red-600 hover:text-red-800">Hapus</button>
-                  </form>
+                  <!-- Tombol Hapus untuk Produk -->
+                  <button type="button" onclick="deleteCart({{ $cart->id }})" class="text-red-600 hover:text-red-800 font-semibold">
+                    Hapus
+                  </button>
                 </td>
               </tr>
               @endforeach
@@ -56,6 +57,7 @@
             </button>
           </div>
         </form>
+        
       </div>
     </div>
   @else
@@ -64,4 +66,27 @@
       <span class="text-lg">Tidak ada produk di keranjang.</span>
     </div>
   @endif
+
+  <!-- Form untuk delete produk -->
+  <form id="delete-form" action="{{ route('keranjang.hapus', 'temp') }}" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+    <!-- Hapus akan dilakukan disini setelah tombol ditekan -->
+  </form>
+
 @endsection
+
+@push('scripts')
+<script>
+  function deleteCart(cartId) {
+    // Update URL pada form delete
+    const form = document.getElementById('delete-form');
+    form.action = '/keranjang/' + cartId + '/hapus'; // Update dengan URL yang sesuai
+
+    // Submit form
+    if (confirm('Yakin ingin menghapus produk ini dari keranjang?')) {
+      form.submit();
+    }
+  }
+</script>
+@endpush
