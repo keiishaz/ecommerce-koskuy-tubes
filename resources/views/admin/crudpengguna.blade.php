@@ -76,7 +76,6 @@
                 <td class="py-3 px-6 pengguna-email">{{ $user->email }}</td>
                 <td class="py-3 px-6 text-purple-600 font-semibold">{{ ucfirst($user->role) }}</td>
                 <td class="py-3 px-6 text-center">
-                <a href="{{ route('editPengguna', $user->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600">Edit</a>
                   <form action="" method="POST" class="inline">
                     @csrf
                     @method('DELETE')

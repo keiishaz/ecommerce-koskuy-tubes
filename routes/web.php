@@ -24,6 +24,7 @@ use App\Http\Controllers\SessionController;
 Route::middleware(['guest'])->group(function() {
     Route::get('/masuk', [SessionController::class, 'index'])->name('login');
     Route::post('/masuk', [SessionController::class, 'login']);
+    Route::get('/daftar', [SessionController::class, 'daftar']);
     Route::post('/daftar', [SessionController::class, 'register'])->name('register');
 });
 
@@ -65,6 +66,11 @@ Route::middleware(['auth', 'can:admin-only'])->group(function () {
     // Profil Admin
     Route::get('/admin/profile/edit', [AdminController::class, 'editProfile'])->name('admin.akun');
     Route::put('/admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
+
+    // Pengguna
+    Route::get('/admin/pengguna', [AdminController::class, 'pengguna'])->name('crudpengguna');
+    Route::get('/admin/pengguna/tambah', [AdminController::class, 'tambahPengguna'])->name('tambahpengguna');    
+    Route::get('/admin/pengguna/{id}/edit', [AdminController::class, 'editPengguna'])->name('editPengguna'); // Form edit kategori
 
     //Keluar
     Route::post('/logout', [SessionController::class, 'logout'])->name('logout');

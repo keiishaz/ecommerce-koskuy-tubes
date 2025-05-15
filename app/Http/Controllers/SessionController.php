@@ -14,6 +14,9 @@ class SessionController extends Controller
     public function index() {
         return view('masuk');
     }
+    public function daftar() {
+        return view('daftar');
+    }
     public function login(Request $request) {
         $request->validate([
             'email' => 'required',
