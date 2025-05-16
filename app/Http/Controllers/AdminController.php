@@ -68,6 +68,6 @@ class AdminController extends Controller
 
     $user->save();
 
-    return redirect()->route('admin.dashboardadmin')->with('success', 'Akun berhasil diperbarui.');
+    return redirect()->route('admin')->with('success', 'Akun berhasil diperbarui.');
     }
 }
