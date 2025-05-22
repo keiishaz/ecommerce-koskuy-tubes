@@ -1,6 +1,20 @@
 @extends('admin.layoutadmin')
 
-@section('content')      
+@section('content')  
+
+@if (session('success'))
+  <div 
+    x-data="{ show: true }" 
+    x-init="setTimeout(() => show = false, 3000)" 
+    x-show="show"
+    x-transition
+    class="fixed top-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg z-50"
+    role="alert"
+  >
+    <strong class="font-semibold">Sukses!</strong> {{ session('success') }}
+  </div>
+@endif
+
       <!-- Header Pesanan -->
       <div class="bg-white p-5 rounded-lg shadow-md mb-6 flex justify-between items-center">
         <h1 class="text-2xl font-semibold text-gray-700">Daftar Pesanan</h1>
@@ -55,31 +69,33 @@
                   </div>
 
                   <!-- Status Change Buttons -->
-                  <div class="flex justify-end gap-4 mt-4">
-                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Menunggu Pembayaran']) }}" method="POST" class="w-full">
-                      @csrf
-                      @method('PUT')
-                      <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 w-full">
-                        Menunggu Pembayaran
-                      </button>
-                    </form>
+                  @if ($order->status !== 'Selesai')
+                    <div class="flex justify-end gap-4 mt-4">
+                      <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Menunggu Pembayaran']) }}" method="POST" class="w-full">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 w-full">
+                          Menunggu Pembayaran
+                        </button>
+                      </form>
 
-                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Diproses']) }}" method="POST" class="w-full">
-                      @csrf
-                      @method('PUT')
-                      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
-                        Diproses
-                      </button>
-                    </form>
+                      <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Diproses']) }}" method="POST" class="w-full">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
+                          Diproses
+                        </button>
+                      </form>
 
-                    <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Selesai']) }}" method="POST" class="w-full">
-                      @csrf
-                      @method('PUT')
-                      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full">
-                        Selesai
-                      </button>
-                    </form>
-                  </div>
+                      <form action="{{ route('admin.order.updateStatus', ['order' => $order->id, 'status' => 'Selesai']) }}" method="POST" class="w-full">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full">
+                          Selesai
+                        </button>
+                      </form>
+                    </div>
+                  @endif
                 </div>
               </div>
             @endforeach

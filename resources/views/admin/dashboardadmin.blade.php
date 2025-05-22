@@ -1,6 +1,20 @@
 @extends('admin.layoutadmin')
 
 @section('content')
+
+@if (session('success'))
+  <div 
+    x-data="{ show: true }" 
+    x-init="setTimeout(() => show = false, 3000)" 
+    x-show="show"
+    x-transition
+    class="fixed top-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg z-50"
+    role="alert"
+  >
+    <strong class="font-semibold">Sukses!</strong> {{ session('success') }}
+  </div>
+@endif
+
       <!-- Akun Profil di Atas Dashboard -->
       <div class="bg-white p-5 rounded-lg shadow-md mb-6 flex items-center justify-between">
         <div class="flex items-center gap-3">

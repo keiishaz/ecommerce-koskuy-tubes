@@ -1,6 +1,20 @@
 @extends('admin.layoutadmin')
 
 @section('content')      
+
+@if (session('success'))
+  <div 
+    x-data="{ show: true }" 
+    x-init="setTimeout(() => show = false, 3000)" 
+    x-show="show"
+    x-transition
+    class="fixed top-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg z-50"
+    role="alert"
+  >
+    <strong class="font-semibold">Sukses!</strong> {{ session('success') }}
+  </div>
+@endif
+
       <!-- Header Pengguna -->
       <div class="bg-white p-5 rounded-lg shadow-md mb-6 flex justify-between items-center">
         <h1 class="text-2xl font-semibold text-gray-700">Daftar Pengguna</h1>

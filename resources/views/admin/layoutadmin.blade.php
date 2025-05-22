@@ -11,6 +11,7 @@
   <script src="{{ asset('js/plugin.js') }}"></script>
   <script src="{{ asset('js/script.js') }}"></script>
   <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="flex min-h-screen">
